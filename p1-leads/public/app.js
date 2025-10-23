@@ -1,5 +1,6 @@
-// Wait until DOM is ready
+// For Waiting until DOM is ready
 document.addEventListener("DOMContentLoaded", () => {
+/* ========================= DOM ========================= */
   const grid = document.querySelector("#grid tbody");
   const form = document.querySelector("#newLead");
   const q = document.querySelector("#q");
@@ -9,10 +10,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalBody = document.querySelector("#modalBody");
   const closeModal = document.querySelector("#closeModal");
 
-  // Load leads when filters are applied
-  applyFiltersBtn.addEventListener("click", load);
+  let editingLead = null; // store the lead currently being edited
 
-  // Handle new lead submission
+  applyFiltersBtn.addEventListener("click", load); // Load leads when filters are applied
+
+  //=========================  Handle new lead submission form ========================= 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(form).entries());
@@ -26,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (res.status === 409) {
         const { error } = await res.json();
-        alert("❌ " + error); // Show specific error about email
+        alert("❌ " + error);
         return;
       }
 
@@ -39,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Load leads and render table
+  //=========================  Load leads and render table ========================= 
   async function load() {
     const params = new URLSearchParams();
     if (q.value) params.set("q", q.value);
@@ -52,69 +54,71 @@ document.addEventListener("DOMContentLoaded", () => {
     bindActions();
   }
 
-  // Render a table row
+  // Render a table row with badge
   function row(l) {
     return `
       <tr>
         <td>${l.name}</td>
         <td>${l.email}</td>
         <td>${l.company || ""}</td>
-        <td><span class="badge ${l.status.toLowerCase()}">${
-      l.status
-    }</span></td>
+        <td><span class="badge ${l.status.toLowerCase()}">${l.status}</span></td> 
         <td class="actions">
-          <button class="link" data-id="${
-            l.id
-          }" data-s="Contacted">Contacted</button>
-          <button class="link" data-id="${
-            l.id
-          }" data-s="Qualified">Qualified</button>
-          <button class="link danger" data-id="${
-            l.id
-          }" data-s="Lost">Lost</button>
-          <button class="link neutral" data-id="${
-            l.id
-          }" data-action="view">View</button>
-          <button class="link danger" data-id="${
-            l.id
-          }" data-action="delete">Delete</button>
+          <button class="link neutral" data-id="${l.id}" data-action="view">View</button>
+          <button class="link" data-id="${l.id}" data-action="edit">Edit</button>
+          <button class="link danger" data-id="${l.id}" data-action="delete">Delete</button>
         </td>
       </tr>`;
   }
 
-  // Bind action buttons
+  //  <button class="link" data-id="${l.id}" data-s="Contacted">Contacted</button>
+  //  <button class="link" data-id="${l.id}" data-s="Qualified">Qualified</button>
+  //  <button class="link danger" data-id="${l.id}" data-s="Lost">Lost</button>
+
+  //=========================  Fetch a single lead by ID ========================= 
+  async function fetchLead(id) {
+    try {
+      const res = await fetch("/api/leads/" + id);
+      if (!res.ok) throw new Error("Lead not found");
+      return await res.json();
+    } catch (err) {
+      alert("❌ " + err.message);
+      return null;
+    }
+  }
+
+  /*  ========================= 
+        Bind action buttons
+      ========================= */
   function bindActions() {
     document.querySelectorAll(".link").forEach((btn) => {
       btn.addEventListener("click", async () => {
         const id = btn.dataset.id;
 
-        // VIEW DETAILS
+        //========================= VIEW DETAILS ========================= 
         if (btn.dataset.action === "view") {
-          const res = await fetch(
-            "/api/leads?" + new URLSearchParams({ q: id })
-          );
-          const leads = await res.json();
-          const lead = leads.find((l) => l.id === id);
-          if (lead) showDetails(lead);
+          const lead = await fetchLead(id);
+          if (lead) showDetails(lead, false);
           return;
         }
 
-        // DELETE LEAD (persistent)
+        //=========================  EDIT  ========================= 
+        if (btn.dataset.action === "edit") {
+          const lead = await fetchLead(id);
+          if (lead) showDetails(lead, true);
+          return;
+        }
+
+        //=========================  DELETE LEAD ========================= 
         if (btn.dataset.action === "delete") {
-          if (
-            !confirm("Are you sure you want to permanently delete this lead?")
-          )
-            return;
+          if (!confirm("Are you sure you want to permanently delete this lead?")) return;
 
           try {
             const res = await fetch("/api/leads/" + id, { method: "DELETE" });
-
             if (!res.ok) {
               const err = await res.json();
               alert("❌ Delete failed: " + (err.error || "Unknown error"));
               return;
             }
-
             alert("Lead deleted successfully");
             load();
           } catch (err) {
@@ -123,31 +127,82 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
 
-        //  UPDATE STATUS
+        //=========================  UPDATE STATUS ========================= 
         const status = btn.dataset.s;
-        await fetch("/api/leads/" + id, {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ status }),
-        });
-
-        load();
+        if (status) {
+          await fetch("/api/leads/" + id, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ status }),
+          });
+          load();
+        }
       });
     });
   }
 
-  // Show lead details in modal
-  function showDetails(lead) {
-    modalBody.innerHTML = `
-      <p><strong>Name:</strong> ${lead.name}</p>
-      <p><strong>Email:</strong> ${lead.email}</p>
-      <p><strong>Company:</strong> ${lead.company || "-"}</p>
-      <p><strong>Source:</strong> ${lead.source || "-"}</p>
-      <p><strong>Status:</strong> ${lead.status}</p>
-      <p><strong>Notes:</strong><br>${lead.notes || "(none)"}</p>
-      <p><em>Created at: ${new Date(lead.createdAt).toLocaleString()}</em></p>
-    `;
+  // Show lead details in modal (editable if editMode = true)
+  function showDetails(lead, editMode = false) {
+    editingLead = lead;
+
+    if (editMode) {
+      modalBody.innerHTML = `
+        <form id="editForm">
+          <label>Name <input name="name" value="${lead.name}" required /></label>
+          <label>Email <input name="email" value="${lead.email}" type="email" required /></label>
+          <label>Company <input name="company" value="${lead.company || ""}" /></label>
+          <label>Source <input name="source" value="${lead.source || ""}" /></label>
+          <label>Status
+            <select name="status">
+              <option ${lead.status === "New" ? "selected" : ""}>New</option>
+              <option ${lead.status === "Contacted" ? "selected" : ""}>Contacted</option>
+              <option ${lead.status === "Qualified" ? "selected" : ""}>Qualified</option>
+              <option ${lead.status === "Lost" ? "selected" : ""}>Lost</option>
+            </select>
+          </label>
+          <label>Notes <textarea name="notes">${lead.notes || ""}</textarea></label>
+          <button type="submit" class="primary full">Save your Changes</button>
+        </form>
+      `;
+
+      const editForm = modalBody.querySelector("#editForm");
+      editForm.addEventListener("submit", handleUpdate);
+    } else {
+      modalBody.innerHTML = `
+        <p><strong>Name:</strong> ${lead.name}</p>
+        <p><strong>Email:</strong> ${lead.email}</p>
+        <p><strong>Company:</strong> ${lead.company || "-"}</p>
+        <p><strong>Source:</strong> ${lead.source || "-"}</p>
+        <p><strong>Status:</strong> ${lead.status}</p>
+        <p><strong>Notes:</strong><br>${lead.notes || "(none)"}</p>
+        <p><em>Created at: ${new Date(lead.createdAt).toLocaleString()}</em></p>
+      `;
+    }
+
     modal.classList.remove("hidden");
+  }
+
+  //=========================  Handle updating a lead ========================= 
+  async function handleUpdate(e) {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+      const res = await fetch("/api/leads/" + editingLead.id, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) throw new Error("Update failed");
+
+      alert("Lead successfully updated!");
+      modal.classList.add("hidden");
+      load();
+    } catch (err) {
+      alert("❌ " + err.message);
+    }
   }
 
   // Close modal

@@ -1,42 +1,32 @@
 [
   {
-    "id": "1761233760991",
-    "name": "FEMI ADESOLA OYINLOYE",
-    "email": "femioyin2003@yahoo.com",
-    "company": "soyin",
-    "source": "ad",
-    "notes": "ssss",
-    "status": "Qualified",
-    "createdAt": "2025-10-23T15:36:00.991Z"
-  },
-  {
-    "id": "1761234035709",
-    "name": "Oyinloye Femi",
-    "email": "soyin12@yahoo.com",
-    "company": "femi",
-    "source": "ad",
-    "notes": "ssss",
-    "status": "Contacted",
-    "createdAt": "2025-10-23T15:40:35.709Z"
-  },
-  {
     "id": "1761234047503",
     "name": "Oyinloye Femi",
     "email": "soyin12s@yahoo.com",
     "company": "femi",
     "source": "ad",
     "notes": "ssss",
-    "status": "New",
+    "status": "Qualified",
     "createdAt": "2025-10-23T15:40:47.503Z"
   },
   {
-    "id": "1761246809945",
+    "id": "1761250346291",
     "name": "FEMI ADESOLA OYINLOYE",
-    "email": "femioyin03@yahoo.com",
+    "email": "femioyin1003@yahoo.com",
     "company": "femi",
     "source": "ad",
-    "notes": "sssss",
-    "status": "Qualified",
-    "createdAt": "2025-10-23T19:13:29.945Z"
+    "notes": "ddddd",
+    "status": "Contacted",
+    "createdAt": "2025-10-23T20:12:26.291Z"
+  },
+  {
+    "id": "1761252069573",
+    "name": "FEMI ADESOLA OYINLOYE",
+    "email": "femioyin2femioyin2003femioyin2003003@yahoo.com",
+    "company": "femi",
+    "source": "",
+    "notes": "ggggg",
+    "status": "New",
+    "createdAt": "2025-10-23T20:41:09.573Z"
   }
 ]

@@ -12,16 +12,21 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
-// Utility: read and write JSON leads data
+/*======================================
+  Utility: read and write JSON leads data
+  ======================================  */
+// Read JSON leads data
 function readLeads() {
   if (!fs.existsSync(DATA)) return [];
   return JSON.parse(fs.readFileSync(DATA, "utf8"));
 }
+
+// Write JSON leads data
 function writeLeads(leads) {
   fs.writeFileSync(DATA, JSON.stringify(leads, null, 2));
 }
 
-/* ---------------------- API ROUTES ---------------------- */
+/* ============================ API ROUTES ============================ */
 
 // GET all leads (with optional search + filter)
 app.get("/api/leads", (req, res) => {
@@ -34,6 +39,14 @@ app.get("/api/leads", (req, res) => {
     );
   if (status) list = list.filter((l) => l.status.toLowerCase() === status);
   res.json(list);
+});
+
+// GET a single lead by ID
+app.get("/api/leads/:id", (req, res) => {
+  const leads = readLeads();
+  const lead = leads.find((l) => l.id === req.params.id);
+  if (!lead) return res.status(404).json({ error: "Lead not found" });
+  res.json(lead);
 });
 
 // POST create a new lead
@@ -72,7 +85,7 @@ app.patch("/api/leads/:id", (req, res) => {
   const idx = leads.findIndex((l) => l.id === req.params.id);
   if (idx === -1) return res.status(404).json({ error: "Not found" });
 
-  const allowed = ["status", "notes"];
+  const allowed = ["status", "notes", "company"];
   for (const key of allowed) {
     if (req.body[key] !== undefined) leads[idx][key] = req.body[key];
   }
@@ -97,7 +110,7 @@ app.delete("/api/leads/:id", (req, res) => {
   res.json({ message: "Lead deleted successfully", deleted });
 });
 
-/* --------------------------------------------------------- */
+/* ============================================================= */
 
 app.get("/", (req, res) =>
   res.sendFile(path.join(__dirname, "public", "index.html"))
