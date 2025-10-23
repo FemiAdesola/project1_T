@@ -1,0 +1,250 @@
+/* Basic page layout */
+body {
+  font-family: "Segoe UI", Roboto, system-ui, sans-serif;
+  background: #f5f7fb;
+  color: #222;
+  margin: 0;
+}
+
+/* Navbar */
+.navbar {
+  background: #243b6b;
+  color: #fff;
+  padding: 14px 20px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Layout */
+.wrap {
+  max-width: 980px;
+  margin: 30px auto;
+  padding: 0 16px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+h1,
+h2 {
+  margin: 0 0 12px;
+}
+
+/* Form styles */
+label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  margin: 8px 0;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.notes textarea {
+  min-height: 80px;
+}
+
+input,
+select,
+textarea,
+button {
+  font: inherit;
+  padding: 8px;
+  border: 1px solid #ccd3e0;
+  border-radius: 8px;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #2e3a8c;
+  box-shadow: 0 0 0 3px rgba(46, 58, 140, 0.1);
+  outline: none;
+}
+
+/* Vertical form */
+.form-vertical label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.form-vertical input,
+.form-vertical textarea {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 4px;
+}
+
+button.full {
+  width: 100%;
+  margin-top: 12px;
+}
+
+/* Buttons */
+button {
+  cursor: pointer;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 8px 14px;
+  transition: background 0.2s;
+}
+
+button.primary {
+  background: #2e3a8c;
+  color: #fff;
+  border: none;
+}
+
+button.primary:hover {
+  background: #535ba8;
+}
+
+button.secondary {
+  background: #e0e4f7;
+  color: #2e3a8c;
+  border: none;
+}
+
+button.secondary:hover {
+  background: #49579d;
+   color: #e0e4f7
+}
+
+button.link {
+  background: #eae6e6;
+  border: none;
+  color: #2e3a8c;
+  text-decoration: none;
+  cursor: pointer;
+  width: 100px;
+}
+
+button.link.danger {
+  color: #b93737;
+}
+
+button.link.neutral {
+  color: #555;
+}
+
+button.link:hover{
+  background: #d2d8f5;
+}
+
+/* Filters */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 10px;
+  border-bottom: 1px solid #eef1f6;
+  text-align: left;
+}
+
+thead tr {
+  background: #f1f3fa;
+}
+
+td.actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* Status badges */
+.badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.85em;
+  font-weight: 600;
+}
+
+.badge.new {
+  background: #dce3ff;
+  color: #2e3a8c;
+}
+
+.badge.contacted {
+  background: #fff3cd;
+  color: #a16c00;
+}
+
+.badge.qualified {
+  background: #d4edda;
+  color: #207227;
+}
+
+.badge.lost {
+  background: #f8d7da;
+  color: #b93737;
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 12px;
+  max-width: 400px;
+  width: 90%;
+  animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  color: #777;
+  padding: 16px;
+  font-size: 0.9em;
+}

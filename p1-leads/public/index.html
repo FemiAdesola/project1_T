@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Micro CRM Leads</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  
+  <body>
+    <header class="navbar">
+      <h1>Micro CRM</h1>
+    </header>
+
+    <main class="wrap">
+      <!-- Lead creation form (vertical layout) -->
+      <form id="newLead" class="card form-vertical">
+        <h2>Add New Lead</h2>
+        <label>Name<input name="name" required /></label>
+        <label>Email<input name="email" type="email" required /></label>
+        <label>Company<input name="company" /></label>
+        <label>Source<input name="source" /></label>
+        <label>Notes<textarea name="notes"></textarea></label>
+        <button type="submit" class="primary full"> Create Lead</button>
+      </form>
+
+      <!-- Lead list -->
+      <section class="card">
+        <h2>Leads</h2>
+        <div class="filters">
+          <input id="q" placeholder="Search name or company" />
+          <select id="status">
+            <option value="">All</option>
+            <option>New</option>
+            <option>Contacted</option>
+            <option>Qualified</option>
+            <option>Lost</option>
+          </select>
+          <button id="applyFilters" type="button" class="secondary">
+            Apply
+          </button>
+        </div>
+
+        <div class="table-wrapper">
+          <table id="grid">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Company</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <!-- Lead Details Modal -->
+    <div id="modal" class="modal hidden">
+      <div class="modal-content card">
+        <h3>Lead Details</h3>
+        <div id="modalBody"></div>
+        <button id="closeModal" class="secondary full">Close</button>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <p>Micro CRM &copy; 2025</p>
+    </footer>
+     <script src="app.js" defer></script>
+  </body>
+</html>
