@@ -50,19 +50,21 @@ It helps small teams tracking customer leads, filter, view, update, search, dele
 ### Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/P1-leads.git
-cd P1-leads
+git clone https://github.com/FemiAdesola/project1_T.git
+cd project1_T
 ```
 
 ### Install dependencies
 
 ```bash
+cd p1-leads
 npm install express
 ```
 
 ### Start the server
 
 ```bash
+cd p1-leads
 node server.js
 ```
 
