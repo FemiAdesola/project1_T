@@ -20,6 +20,12 @@ It helps small teams tracking customer leads, filter, view, update, search, dele
 ## Project Structure
 
 ```
+├── img/
+│   ├── CRMPage.png
+│   ├── EditPage.png
+│   ├── EmailError.png
+│   └── ViewModal.png
+│ 
 ├── p1-leads/
 │   ├── public/
 │   │   ├── index.html       # Frontend HTML
