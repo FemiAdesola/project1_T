@@ -1,4 +1,8 @@
 # Micro CRM Leads
+
+[![Habit_Tracker](https://github.com/FemiAdesola/project1_T/actions/workflows/pages.yml/badge.svg?branch=main)](https://github.com/FemiAdesola/project1_T/actions/)
+
+
 >Micro CRM is a simple, file-based CRM (Customer Relationship Management) system built using **Node.js**, **Express**, and **JavaScript**.  
 It helps small teams tracking customer leads, filter, view, update, search, delete and manage leads — with persistence through a JSON file.
 

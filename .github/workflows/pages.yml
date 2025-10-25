@@ -1,4 +1,4 @@
-name: Deploy Micro CRM to Render
+name: Micro CRM to Render
 
 on:
   push:
@@ -25,7 +25,7 @@ jobs:
 
       - name: Trigger Render deploy
         env:
-          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+          RENDER_API_KEY: ${{secrets.RENDER_API_KEY}}
         run: |
           curl -X POST "https://api.render.com/v1/services/YOUR_SERVICE_ID/deploys" \
           -H "Authorization: Bearer $RENDER_API_KEY" \
