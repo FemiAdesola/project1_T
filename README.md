@@ -185,7 +185,7 @@ curl -X GET http://localhost:3000/api/leads/1761250346291
 - Data is saved persistently in `leads.json`.
 
 ---
-## self assessment and reflection
+## Self assessment and reflection
 
 This was a learning experience on how a full-stack web application can be created by leveraging Node.js, Express, and JavaScript. The application created is a simple Customer Relationship Management (CRM) application whereby users can create, read, update, search, or delete leads. Through this project, I acquired more knowledge on how data can be shared from the backend to the frontend through RESTful APIs by leveraging JSON files as the minimum database.
 
