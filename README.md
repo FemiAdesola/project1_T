@@ -65,6 +65,19 @@ cd project1_T
 cd p1-leads
 npm install express
 ```
+Windows (CMD)
+```bash
+mkdir p1-leads
+cd p1-leads
+code .   REM opens VS Code if available 
+```
+
+macOS (Terminal)
+```bash
+mkdir -p p1-leads
+cd p1-leads
+code .   # opens VS Code if available
+```
 
 ### Start the server
 
@@ -172,4 +185,12 @@ curl -X GET http://localhost:3000/api/leads/1761250346291
 - Data is saved persistently in `leads.json`.
 
 ---
+## self assessment and reflection
 
+This was a learning experience on how a full-stack web application can be created by leveraging Node.js, Express, and JavaScript. The application created is a simple Customer Relationship Management (CRM) application whereby users can create, read, update, search, or delete leads. Through this project, I acquired more knowledge on how data can be shared from the backend to the frontend through RESTful APIs by leveraging JSON files as the minimum database.
+
+In Frontend, I learned how to dynamically manipulate the DOM to render data as well as handle user interactions. The use of asynchronous calls from the frontend to the backend using the ‘fetch()’ function also taught me more about asynchronous programming. The development of a modal window to show and edit leads taught me more about event handling.
+
+For the backend, I was able to develop a better understanding of Express routing and the use of http methods (get, post, patch, delete). Dealing with data validation, preventing duplication of data entry, as well as saving data into a json file helped me realize the need to preserve data integrity.
+
+The design of the user interface by CSS gave me an opportunity to apply the skills of responsive design in order to achieve a professional-looking UI design. The project has been of great importance to me as it has helped me develop skills in structuring the entire application in a full-stack manner, handling CRUD, as well as coordinating all parts of an application.
