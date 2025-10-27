@@ -145,6 +145,12 @@ Go to: [http://localhost:3000](http://localhost:3000)
 ![EmailError](/img/EmailError.png)
 
 ### Create a lead
+> For live
+
+```bash
+   https://femi-micro-crm.onrender.com/api/leads
+```
+
 ```bash
 curl -X POST http://localhost:3000/api/leads -H "Content-Type: application/json" -d '{
   "name": "John Doe",
@@ -158,16 +164,19 @@ curl -X POST http://localhost:3000/api/leads -H "Content-Type: application/json"
 ### View all lead
 ```bash
 curl -X GET http://localhost:3000/api/leads/
+curl -X GET https://femi-micro-crm.onrender.com/api/leads
 ```
 
 ### Delete a lead
 ```bash
 curl -X DELETE http://localhost:3000/api/leads/1234567890
+curl -X DELETE https://femi-micro-crm.onrender.com/api/leads/1234567890
 ```
 
 ### View single lead
 ```bash
 curl -X GET http://localhost:3000/api/leads/1761250346291
+curl -X DELETE https://femi-micro-crm.onrender.com/api/leads/1234567890
 ```
 ---
 
