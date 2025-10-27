@@ -1,14 +1,14 @@
 // For Waiting until DOM is ready
 document.addEventListener("DOMContentLoaded", () => {
-/* ========================= DOM ========================= */
-  const grid = document.querySelector("#grid tbody");
-  const form = document.querySelector("#newLead");
-  const q = document.querySelector("#q");
-  const statusSel = document.querySelector("#status");
-  const applyFiltersBtn = document.querySelector("#applyFilters");
-  const modal = document.querySelector("#modal");
-  const modalBody = document.querySelector("#modalBody");
-  const closeModal = document.querySelector("#closeModal");
+/* ========================= DOM ELEMENT REFERENCES ========================= */
+  const grid = document.querySelector("#grid tbody"); // Table body where leads will be displayed
+  const form = document.querySelector("#newLead"); // Form for adding a new lead
+  const q = document.querySelector("#q"); // Search input (query)
+  const statusSel = document.querySelector("#status"); // Status filter dropdown
+  const applyFiltersBtn = document.querySelector("#applyFilters"); // "Apply Filters" button
+  const modal = document.querySelector("#modal"); // Modal window for viewing/editing lead details
+  const modalBody = document.querySelector("#modalBody"); // Content area inside the modal
+  const closeModal = document.querySelector("#closeModal"); // "Close" button on modal
 
   let editingLead = null; // store the lead currently being edited
 
@@ -16,24 +16,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //=========================  Handle new lead submission form ========================= 
   form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent page reload when form is submitted
     const data = Object.fromEntries(new FormData(form).entries());
 
     try {
+      // Send a POST request to create a new lead
       const res = await fetch("/api/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
 
+      // Handle case where server returns a duplicate/conflict error
       if (res.status === 409) {
         const { error } = await res.json();
         alert("❌ " + error);
         return;
       }
 
+        // Handle generic validation errors
       if (!res.ok) throw new Error("Validation failed");
 
+      // If successful: reset form and reload the table
       form.reset();
       load();
     } catch (err) {
@@ -43,18 +47,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //=========================  Load leads and render table ========================= 
   async function load() {
+    // Build URL query parameters based on filters
     const params = new URLSearchParams();
     if (q.value) params.set("q", q.value);
     if (statusSel.value) params.set("status", statusSel.value);
 
+    // Fetch filtered leads from the server
     const res = await fetch("/api/leads?" + params.toString());
     const leads = await res.json();
 
+    // Render the leads table and enable buttons
     grid.innerHTML = leads.map(row).join("");
     bindActions();
   }
 
-  // Render a table row with badge
+  // Returns HTML for one table row representing a lead
   function row(l) {
     return `
       <tr>
@@ -90,6 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
         Bind action buttons
       ========================= */
   function bindActions() {
+    // Select all buttons (View, Edit, Delete, etc.) and attach click handlers
     document.querySelectorAll(".link").forEach((btn) => {
       btn.addEventListener("click", async () => {
         const id = btn.dataset.id;
@@ -120,7 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
               return;
             }
             alert("Lead deleted successfully");
-            load();
+            load(); // Refresh the table after deletion
           } catch (err) {
             alert("❌ " + err.message);
           }
@@ -141,11 +149,16 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Show lead details in modal (editable if editMode = true)
+  /* =========================
+     SHOW DETAILS IN MODAL
+  ========================= */
+  // Displays a lead’s full details in a modal window
+  // If `editMode` is true, allows editing; otherwise, read-only view
   function showDetails(lead, editMode = false) {
     editingLead = lead;
 
     if (editMode) {
+      // Render editable form for updating lead
       modalBody.innerHTML = `
         <form id="editForm">
           <label>Name <input name="name" value="${lead.name}" required /></label>
@@ -165,9 +178,11 @@ document.addEventListener("DOMContentLoaded", () => {
         </form>
       `;
 
+       // Bind submit event to handle update
       const editForm = modalBody.querySelector("#editForm");
       editForm.addEventListener("submit", handleUpdate);
     } else {
+      // Render read-only lead details
       modalBody.innerHTML = `
         <p><strong>Name:</strong> ${lead.name}</p>
         <p><strong>Email:</strong> ${lead.email}</p>
@@ -179,16 +194,20 @@ document.addEventListener("DOMContentLoaded", () => {
       `;
     }
 
+    // Show modal (remove hidden class)
     modal.classList.remove("hidden");
   }
 
   //=========================  Handle updating a lead ========================= 
   async function handleUpdate(e) {
-    e.preventDefault();
+    e.preventDefault(); // reloading after updated
+
+    // Collect updated field values
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
 
     try {
+      // Send PATCH request to update the lead
       const res = await fetch("/api/leads/" + editingLead.id, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -198,19 +217,27 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!res.ok) throw new Error("Update failed");
 
       alert("Lead successfully updated!");
-      modal.classList.add("hidden");
+      modal.classList.add("hidden"); // Close modal
       load();
     } catch (err) {
       alert("❌ " + err.message);
     }
   }
 
-  // Close modal
+  /* =========================
+     MODAL CLOSE HANDLERS
+  ========================= */
+  // Close modal when clicking the close button
   closeModal.addEventListener("click", () => modal.classList.add("hidden"));
+
+  // Also close when clicking outside the modal content area
   modal.addEventListener("click", (e) => {
     if (e.target === modal) modal.classList.add("hidden");
   });
 
-  // Initial load
+  /* =========================
+     INITIAL LOAD
+  ========================= */
+  // Load all leads when the page first opens
   load();
 });
