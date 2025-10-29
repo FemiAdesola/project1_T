@@ -1,34 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Character encoding for proper text rendering -->
     <meta charset="utf-8" />
+    
+    <!-- Page title -->
     <title>Micro CRM Leads</title>
+    
+    <!-- Responsive design meta tag -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <!-- Link to external CSS file -->
     <link rel="stylesheet" href="styles.css" />
   </head>
   
   <body>
+    <!-- ===== Header / Navbar ===== -->
     <header class="navbar">
-      <h1>Micro CRM</h1>
+      <h1>Micro CRM</h1> <!-- Branding -->
     </header>
 
+    <!-- ===== Main Content Area ===== -->
     <main class="wrap">
-      <!-- Lead creation form (vertical layout) -->
+      <!-- ===== Lead Creation Form ===== -->
+      <!-- Form for adding new leads with vertical layout styling -->
       <form id="newLead" class="card form-vertical">
         <h2>Add New Lead</h2>
+        <!-- Name input (required) -->
         <label>Name<input name="name" required /></label>
+        <!-- Email input (required, email format validation) -->
         <label>Email<input name="email" type="email" required /></label>
+        <!-- Company input (optional) -->
         <label>Company<input name="company" /></label>
+        <!-- Source input (optional, e.g., referral, website) -->
         <label>Source<input name="source" /></label>
+        <!-- Notes input (optional, multiline text) -->
         <label>Notes<textarea name="notes"></textarea></label>
+        <!-- Submit button to create a new lead -->
         <button type="submit" class="primary full"> Create Lead</button>
       </form>
 
-      <!-- Lead list -->
+      <!-- ===== Lead List Section ===== -->
       <section class="card">
         <h2>Leads</h2>
+
+        <!-- Filters for searching and status selection -->
         <div class="filters">
+          <!-- Search by name or company -->
           <input id="q" placeholder="Search name or company" />
+          <!-- Filter by lead status -->
           <select id="status">
             <option value="">All</option>
             <option>New</option>
@@ -36,11 +56,13 @@
             <option>Qualified</option>
             <option>Lost</option>
           </select>
+          <!-- Button to apply filters -->
           <button id="applyFilters" type="button" class="secondary">
             Apply
           </button>
         </div>
 
+        <!-- Table wrapper for scrollable or styled table -->
         <div class="table-wrapper">
           <table id="grid">
             <thead>
@@ -49,29 +71,37 @@
                 <th>Email</th>
                 <th>Company</th>
                 <th>Status</th>
-                <th>Actions</th>
+                <th>Actions</th> <!-- Buttons like edit, delete, view -->
               </tr>
             </thead>
-            <tbody></tbody>
+            <tbody>
+              <!-- Table body will be dynamically populated with JavaScript -->
+            </tbody>
           </table>
         </div>
       </section>
     </main>
 
-    <!-- Lead Details Modal -->
+    <!-- ===== Lead Details Modal ===== -->
+    <!-- Hidden modal to view or edit a lead's full details -->
     <div id="modal" class="modal hidden">
       <div class="modal-content card">
         <h3>Lead Details</h3>
 
-        <!-- Render modal body for view and edit -->
+        <!-- Dynamic modal content populated by JavaScript -->
         <div id="modalBody"></div>
+
+        <!-- Button to close the modal -->
         <button id="closeModal" class="secondary full">Close</button>
       </div>
     </div>
 
+    <!-- ===== Footer ===== -->
     <footer class="footer">
       <p>Micro CRM &copy; 2025</p>
     </footer>
-     <script src="app.js" defer></script>
+
+    <!-- Main JavaScript file for dynamic behavior -->
+    <script src="app.js" defer></script>
   </body>
 </html>

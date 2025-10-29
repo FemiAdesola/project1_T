@@ -8,5 +8,15 @@
     "notes": "This is micro CRM application design",
     "status": "Qualified",
     "createdAt": "2025-10-23T21:32:19.703Z"
+  },
+  {
+    "id": "1761773674103",
+    "name": "Oyin Femi",
+    "email": "oyin12@yahoo.com",
+    "company": "Oyin",
+    "source": "Laurea",
+    "notes": "check",
+    "status": "New",
+    "createdAt": "2025-10-29T21:34:34.103Z"
   }
 ]

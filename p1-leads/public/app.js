@@ -77,10 +77,6 @@ document.addEventListener("DOMContentLoaded", () => {
       </tr>`;
   }
 
-  //  <button class="link" data-id="${l.id}" data-s="Contacted">Contacted</button>
-  //  <button class="link" data-id="${l.id}" data-s="Qualified">Qualified</button>
-  //  <button class="link danger" data-id="${l.id}" data-s="Lost">Lost</button>
-
   //=========================  Fetch a single lead by ID ========================= 
   async function fetchLead(id) {
     try {

@@ -184,21 +184,6 @@ thead tr {
   background: #f1f3fa;
 }
 
-/* td.actions {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-} */
-
-/* Status badges */
-/* .badge {
-  display: inline-block;
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-size: 0.85em;
-  font-weight: 600;
-} */
-
 .badge.new {
   background: #dce3ff;
   color: #2e3a8c;

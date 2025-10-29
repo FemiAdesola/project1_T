@@ -155,5 +155,5 @@ app.get("/", (req, res) =>
   =========================== */
 // Start the Express server and log the running URL
 app.listen(PORT, () =>
-  console.log(`Server running at http://localhost: ${PORT} mode on port ${PORT}`)
+  console.log(`Server running at http://localhost:${PORT} mode on port ${PORT}`)
 );
