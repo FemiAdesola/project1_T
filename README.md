@@ -193,6 +193,11 @@ curl -X DELETE https://femi-micro-crm.onrender.com/api/leads/1234567890
 - You can style the UI by editing `public/styles.css`.
 - Data is saved persistently in `leads.json`.
 
+## 🧾 License
+
+MIT License [Femi Adesola Oyinloye](https://github.com/FemiAdesola) © 2025 
+
+Feel free to fork, modify, and share!
 ---
 ## Self assessment and reflection
 
